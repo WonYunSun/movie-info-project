@@ -41,4 +41,15 @@ const createMovieCard = () => {
   });
 };
 
+// 이벤트 전이 관련 코드
+movies_container.onclick = function (e) {
+  let target = e.target;
+
+  let card = target.closest(".movie-card"); // 상위 요소 중에 movie-card 클래스가 있는지 탐색
+
+  if (!card) return; // movie-card 클래스가 없으면 리턴
+
+  console.log("card cilked");
+};
+
 export { createMovieCard };

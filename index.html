@@ -8,17 +8,21 @@
     <link rel="icon" href="./favicon.png" type="image/png">
   </head>
   <body>
+    
     <h1>영화 검색</h1>
     <form id="title-search-form">
       <input
-        type="text"
-        id="movie-title-input"
+      type="text"
+      id="movie-title-input"
         placeholder="영화 제목을 입력하세요"
         required
-      />
-      <button type="submit">검색</button>
-    </form>
-    <div id="movies-container" class="movies-container"></div>
+        />
+        <button type="submit">검색</button>
+      </form>
+      <div id="total-result"></div>
+    <div id="movies-container" class="movies-container">
+      <div id="loading-icon"></div>
+    </div>
 
 
     <div id="pagination-container" class="pagination-container">
