@@ -9,6 +9,7 @@ const options = {
 };
 
 let movies; // 전역 변수로 선언
+let totalPages;
 
 // 영화 데이터를 가져오는 함수
 const fetchMovies = async (page) => {
@@ -23,6 +24,7 @@ const fetchMovies = async (page) => {
 
     if (data.results) {
       movies = data.results; // 받아온 데이터를 movies에 저장
+      totalPages = data.total_pages;
       return movies; // movies 반환
     } else {
       console.error("영화 데이터를 가져오는 데 실패했습니다.", data);
@@ -32,5 +34,4 @@ const fetchMovies = async (page) => {
   }
 };
 
-// movies와 fetchMovies를 내보냅니다
-export { fetchMovies, movies };
+export { fetchMovies, movies, totalPages };

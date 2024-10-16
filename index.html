@@ -8,11 +8,25 @@
   </head>
   <body>
     <h1>영화 검색</h1>
-
+    <form id="title-search-form">
+      <input
+        type="text"
+        id="movie-title-input"
+        placeholder="영화 제목을 입력하세요"
+        required
+      />
+      <button type="submit">검색</button>
+    </form>
     <div id="movies-container" class="movies-container"></div>
 
-    <button id="prev-button" disabled>이전</button>
-    <button id="next-button">다음</button>
+
+    <div id="pagination-container" class="pagination-container">
+      <button id="prev-button">이전</button>
+      <div id="page-list"></div>
+      <button id="next-button">다음</button>
+    </div>
+
     <script src="./js/app.js" type="module"></script>
+  </div>
   </body>
 </html>

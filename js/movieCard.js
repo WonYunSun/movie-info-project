@@ -29,7 +29,7 @@ const createMovieCard = () => {
     const voteAverageElement = createElementWithText(
       "p",
       "vote-average",
-      `평점 평균: ${vote_average}`
+      `평점 평균: ${Math.round(vote_average)}`
     );
 
     card.appendChild(image);
@@ -41,5 +41,4 @@ const createMovieCard = () => {
   });
 };
 
-// createMovieCard 함수를 내보냅니다
 export { createMovieCard };
