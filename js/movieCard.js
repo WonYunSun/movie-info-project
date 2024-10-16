@@ -29,7 +29,7 @@ const createMovieCard = () => {
     const voteAverageElement = createElementWithText(
       "p",
       "vote-average",
-      `평점 평균: ${Math.round(vote_average)}`
+      `평점 평균: ${Math.round(vote_average)}/10`
     );
 
     card.appendChild(image);

@@ -4,8 +4,6 @@ import { createMovieCard } from "./movieCard.js";
 
 let currentPage = 1; // 현재 페이지
 
-// // const movies_container = document.getElementById("movies-container");
-// const pagination_container = document.getElementById("pagination-container");
 const page_list = document.getElementById("page-list");
 
 const prev_button = document.getElementById("prev-button");
@@ -44,7 +42,7 @@ const paginationFnc = (totalPages) => {
     const pageButton = document.createElement("button");
     pageButton.textContent = i;
     pageButton.value = i; // 버튼의 value 속성에 페이지 번호 저장
-    console.log(i);
+
     pageButton.addEventListener("click", () => {
       currentPage = Number(pageButton.value);
       loadMovies();
