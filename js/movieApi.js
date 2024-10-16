@@ -1,3 +1,4 @@
+// movieApi.js
 const options = {
   method: "GET",
   headers: {
@@ -7,18 +8,29 @@ const options = {
   },
 };
 
-const fetchMovies = async () => {
+let movies; // 전역 변수로 선언
+
+// 영화 데이터를 가져오는 함수
+const fetchMovies = async (page) => {
   console.log("fetchMovies 실행");
   try {
     const response = await fetch(
-      "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page=1&sort_by=popularity.desc",
+      `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page=${page}&sort_by=popularity.desc`,
       options
     );
     const data = await response.json();
     console.log(data); // 응답 데이터를 출력
+
+    if (data.results) {
+      movies = data.results; // 받아온 데이터를 movies에 저장
+      return movies; // movies 반환
+    } else {
+      console.error("영화 데이터를 가져오는 데 실패했습니다.", data);
+    }
   } catch (err) {
     console.error(err);
   }
 };
 
-fetchMovies();
+// movies와 fetchMovies를 내보냅니다
+export { fetchMovies, movies };
