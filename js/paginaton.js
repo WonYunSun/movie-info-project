@@ -49,6 +49,10 @@ const paginationFnc = (totalPages) => {
       paginationFnc(totalPages);
     });
 
+    if (pageButton.value == currentPage) {
+      pageButton.style.backgroundColor = "#cdcecf";
+    }
+
     pageNumberDiv.appendChild(pageButton);
   }
   page_list.innerHTML = ""; // 기존 버튼 삭제
