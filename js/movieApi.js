@@ -50,4 +50,4 @@ const fetchMovies = async (page) => {
   }
 };
 
-export { fetchMovies, movies, totalPages };
+export { fetchMovies, movies, totalPages, showLoading, hideLoading };

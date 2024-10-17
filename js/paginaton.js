@@ -10,12 +10,21 @@ const prev_button = document.getElementById("prev-button");
 const next_button = document.getElementById("next-button");
 
 // 영화 데이터를 가져오고 카드 생성
-const loadMovies = async () => {
-  await fetchMovies(currentPage);
+
+const loadMovies = async (fetchFunction, query = null) => {
+  if (query) {
+    // 제목별 검색의 경우
+    await fetchFunction(query, currentPage);
+  } else {
+    // 전체 영화 데이터 로드의 경우
+    await fetchFunction(currentPage);
+  }
+
   window.scrollTo({ top: 0, behavior: "smooth" }); // 부드러운 스크롤
   createMovieCard(); // 카드 생성
   paginationFnc(totalPages);
 };
+
 let startPage = 1;
 
 // 다음 페이지 버튼 클릭 시
@@ -45,7 +54,7 @@ const paginationFnc = (totalPages) => {
 
     pageButton.addEventListener("click", () => {
       currentPage = Number(pageButton.value);
-      loadMovies();
+      loadMovies(fetchMovies);
       paginationFnc(totalPages);
     });
 
@@ -60,4 +69,4 @@ const paginationFnc = (totalPages) => {
 };
 
 // 초기 영화 데이터 로드
-loadMovies();
+loadMovies(fetchMovies);

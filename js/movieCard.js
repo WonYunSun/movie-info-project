@@ -3,6 +3,7 @@ import { movies } from "./movieApi.js";
 
 const movies_container = document.getElementById("movies-container");
 
+//텍스트 정보가 들어가는 element 생성 함수
 const createElementWithText = (elementType, className, textContent = "") => {
   const element = document.createElement(elementType);
   element.className = className;
@@ -10,6 +11,7 @@ const createElementWithText = (elementType, className, textContent = "") => {
   return element;
 };
 
+//카드 생성 함수
 const createMovieCard = () => {
   if (!movies) return; // movies가 undefined인 경우 종료
 
@@ -29,7 +31,7 @@ const createMovieCard = () => {
     const voteAverageElement = createElementWithText(
       "p",
       "vote-average",
-      `평점 평균: ${Math.round(vote_average)}/10`
+      `평점 평균: ${vote_average.toFixed(1)}/10`
     );
 
     card.appendChild(image);
