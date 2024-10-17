@@ -23,6 +23,7 @@ h1 {
   color: #333; /* 글자 색상 */
 } /* 폼 스타일 */
 #title-search-form {
+  position: relative;
   display: flex; /* 플렉스 박스 사용 */
   justify-content: center; /* 중앙 정렬 */
   margin-bottom: 20px; /* 아래쪽 마진 */
@@ -178,10 +179,10 @@ h1 {
 }
 
 .search-suggestions {
-  position: absolute; /* 입력 필드 바로 아래에 위치하도록 설정 */
+  position: absolute;
   width: 300px;
-  top: 90px;
-
+  top: calc(42px);
+  margin-right: calc(57.97px + 10px);
   background-color: white; /* 배경색 설정 */
   border: 1px solid #ccc; /* 테두리 색상 설정 */
   border-radius: 5px; /* 모서리 둥글게 설정 */
@@ -198,4 +199,8 @@ h1 {
 
 .suggestion-item:hover {
   background-color: #f0f0f0; /* 마우스 오버 시 배경색 변경 */
+}
+.no-suggestions {
+  padding: 10px;
+  color: #ccc;
 }

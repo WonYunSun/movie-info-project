@@ -1,5 +1,4 @@
 // movieCard.js
-import { movies } from "./movieApi.js";
 
 const movies_container = document.getElementById("movies-container");
 
@@ -12,7 +11,7 @@ const createElementWithText = (elementType, className, textContent = "") => {
 };
 
 //카드 생성 함수
-const createMovieCard = () => {
+const createMovieCard = (movies) => {
   if (!movies) return; // movies가 undefined인 경우 종료
 
   movies_container.innerHTML = ""; // 기존 카드 삭제

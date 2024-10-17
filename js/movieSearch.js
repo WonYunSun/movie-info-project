@@ -1,6 +1,7 @@
 import { showLoading, hideLoading } from "./movieApi.js";
 
 const titleSearchInput = document.getElementById("title-search-input");
+const SearchButton = document.getElementById("search-button");
 
 // debounce 함수
 function debounce(func, delay) {
@@ -28,7 +29,7 @@ function showSearchSuggestions() {
     searchSuggestions.className = "search-suggestions";
     titleSearchInput.after(searchSuggestions);
     searchSuggestions.innerHTML =
-      "<div class='no-suggestions'>영화 제목을 검색해보세요!</div>";
+      "<div class='no-suggestions'>검색 결과가 없습니다.</div>";
   }
 
   searchSuggestions.style.visibility = "visible"; // 목록 보이기
@@ -73,7 +74,7 @@ function handleInputChange(e) {
   } else {
     // 검색어가 비어있을 경우 제안 목록 비우기
     searchSuggestions.innerHTML =
-      "<div class='no-suggestions'>영화 제목을 검색해보세요!</div>";
+      "<div class='no-suggestions'>검색 결과가 없습니다.</div>";
   }
 }
 
@@ -89,7 +90,8 @@ const options = {
       "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MTM2NjFkZTcxZjAwYzhmNzUyZjI3ZmIzZTQwZmI5ZSIsIm5iZiI6MTcyOTE0MjA3OS44ODc3MjMsInN1YiI6IjY3MGU1YTU5NDJlMTM5MWM1NjY3MGYwNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.HPoAu_-f2J0Os6eL6Y17jVkFJJD848EiHPC1VyXjteo",
   },
 };
-
+let filteredMovies;
+let filterdTotalPages;
 // 제목 검색 결과
 const fetchMovieByTitle = async (query, page) => {
   try {
@@ -101,7 +103,9 @@ const fetchMovieByTitle = async (query, page) => {
     const data = await response.json();
 
     if (data.results) {
-      return data.results; // 검색된 영화 목록 반환
+      filteredMovies = data.results;
+      filterdTotalPages = data.total_pages;
+      return filteredMovies; // 검색된 영화 목록 반환
     } else {
       console.error("영화 데이터를 가져오는 데 실패했습니다.", data);
     }
@@ -109,3 +113,20 @@ const fetchMovieByTitle = async (query, page) => {
     console.error(err);
   }
 };
+
+SearchButton.addEventListener("click", function (e) {
+  e.preventDefault(); // 페이지 리로드 방지
+  // console.log(titleSearchInput.value);
+  const searchInput = titleSearchInput.value;
+  if (searchInput.trim() === "") {
+    // 검색어가 없을 때 알림을 표시
+    alert("검색어를 입력해 주세요.");
+  } else {
+    sessionStorage.setItem("searchQuery", searchInput);
+    console.log(sessionStorage.getItem("searchQuery"));
+    // search.html로 이동
+    window.location.href = "search.html";
+  }
+});
+
+export { fetchMovieByTitle, filteredMovies, filterdTotalPages };

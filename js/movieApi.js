@@ -38,7 +38,7 @@ const fetchMovies = async (page) => {
       hideLoading(); // 데이터 로드 완료 후 로딩 아이콘 숨기기
       movies = data.results; // 받아온 데이터를 movies에 저장
       totalPages = data.total_pages;
-      total_result.innerText = "검색 건수 : " + data.total_results + "건";
+      // total_result.innerText = "검색 건수 : " + data.total_results + "건";
       return movies; // movies 반환
     } else {
       hideLoading(); // 데이터 로드 완료 후 로딩 아이콘 숨기기
