@@ -129,7 +129,7 @@ const fetchMovieByTitle = async (query, page) => {
     );
 
     const data = await response.json();
-
+    console.log(data);
     if (data.results) {
       filteredMovies = data.results;
       filterdTotalPages = data.total_pages;
