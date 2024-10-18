@@ -4,8 +4,9 @@ import { createMovieCard } from "./movieCard.js";
 import { fetchMovieByTitle } from "./movieSearch.js";
 import { movies } from "./movieApi.js";
 import { filteredMovies, filterdTotalPages } from "./movieSearch.js";
+
 let searchQuery = sessionStorage.getItem("searchQuery");
-console.log(searchQuery); // 여기가 sessionStorage를 가져오는 시점
+// console.log(searchQuery);
 
 let currentPage = 1; // 현재 페이지
 let endPage;
@@ -15,7 +16,7 @@ const prev_button = document.getElementById("prev-button");
 const next_button = document.getElementById("next-button");
 
 // 영화 데이터를 가져오고 카드 생성
-
+console.log(filteredMovies);
 const loadMovies = async (fetchFunction, query) => {
   let data;
   console.log(query, currentPage);
@@ -31,7 +32,11 @@ const loadMovies = async (fetchFunction, query) => {
     createMovieCard(movies);
     endPage = totalPages;
   }
-  console.log(data);
+  if (data.length === 0) {
+    document.getElementById(
+      "movies-container"
+    ).innerHTML = `<div>검색 결과가 없습니다.</div>`;
+  }
   window.scrollTo({ top: 0, behavior: "smooth" }); // 부드러운 스크롤
   paginationFnc(endPage);
 };
@@ -89,4 +94,18 @@ if (window.location.pathname.split("/").pop() === "index.html") {
 } else if (window.location.pathname.split("/").pop() === "search.html") {
   console.log(searchQuery);
   loadMovies(fetchMovieByTitle, searchQuery);
+}
+
+const SearchedTitleContainer = document.getElementById(
+  "searched-title-container"
+);
+
+if (searchQuery) {
+  SearchedTitleContainer.innerHTML = `
+    <div id="searched-title-container">
+      <div class="searched-title"><span>"${searchQuery}"</span> 의 검색결과</div>
+    </div>`;
+} else {
+  // searchQuery가 없을 때는 HTML 업데이트를 하지 않음
+  SearchedTitleContainer.innerHTML = ""; // 필요시 빈 값 또는 기본 메시지
 }

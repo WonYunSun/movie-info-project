@@ -1,5 +1,3 @@
-import { showLoading, hideLoading } from "./movieApi.js";
-
 const titleSearchInput = document.getElementById("title-search-input");
 const SearchButton = document.getElementById("search-button");
 
@@ -28,11 +26,10 @@ function showSearchSuggestions() {
     searchSuggestions = document.createElement("div");
     searchSuggestions.className = "search-suggestions";
     titleSearchInput.after(searchSuggestions);
-    searchSuggestions.innerHTML =
-      "<div class='no-suggestions'>검색 결과가 없습니다.</div>";
   }
 
   searchSuggestions.style.visibility = "visible"; // 목록 보이기
+  showHistoryList();
 }
 
 // 인풋 포커스 시 제안 목록 표시
@@ -58,25 +55,56 @@ function handleInputChange(e) {
     fetchMovieByTitle(e.target.value, 1).then((searchedMovies) => {
       searchSuggestions.innerHTML = ""; // 이전 제안 제거
 
-      searchedMovies.forEach((movie) => {
-        const suggestionItem = document.createElement("div");
-        suggestionItem.className = "suggestion-item";
-        suggestionItem.textContent = movie.title;
+      if (searchedMovies.length === 0) {
+        // 검색 결과가 없을 경우
+        searchSuggestions.innerHTML = `<div class="no-suggestions">검색 결과가 없습니다.</div>`;
+      } else {
+        // 검색 결과가 있을 경우
+        searchedMovies.forEach((movie) => {
+          const suggestionItem = document.createElement("div");
+          suggestionItem.className = "suggestion-item";
+          suggestionItem.textContent = movie.title;
 
-        suggestionItem.addEventListener("click", () => {
-          titleSearchInput.value = movie.title; // 클릭 시 제목 설정
-          searchSuggestions.innerHTML = ""; // 제안 목록 비우기
+          suggestionItem.addEventListener("click", () => {
+            titleSearchInput.value = movie.title; // 클릭 시 제목 설정
+            searchSuggestions.innerHTML = ""; // 제안 목록 비우기
+          });
+
+          searchSuggestions.appendChild(suggestionItem); // 제안 목록에 추가
         });
-
-        searchSuggestions.appendChild(suggestionItem); // 제안 목록에 추가
-      });
+      }
     });
-  } else {
-    // 검색어가 비어있을 경우 제안 목록 비우기
-    searchSuggestions.innerHTML =
-      "<div class='no-suggestions'>검색 결과가 없습니다.</div>";
+  }
+  if (e.target.value === "") {
+    showHistoryList();
   }
 }
+const showHistoryList = () => {
+  const searchSuggestions = document.querySelector(".search-suggestions");
+  const removeHistory = document.createElement("div");
+  removeHistory.innerHTML = "<span>모두 삭제</span>";
+
+  searchSuggestions.innerHTML =
+    '<div class="recent-searhced"><div>최근 검색어</div><span id="remove-history">모두 삭제</span></div>';
+  const searchHistory = getSearchHistory();
+  searchHistory.forEach((history) => {
+    console.log(history);
+    const suggestionItem = document.createElement("div");
+    suggestionItem.className = "suggestion-item";
+    suggestionItem.textContent = history;
+    suggestionItem.addEventListener("click", () => {
+      titleSearchInput.value = history; // 클릭 시 제목 설정
+      searchSuggestions.style.visibility = "hidden";
+      // searchSuggestions.innerHTML = ""; // 제안 목록 비우기
+      // 검색 제안 목록에 아이템 추가
+    });
+    document.getElementById("remove-history").addEventListener("click", () => {
+      localStorage.clear();
+      searchSuggestions.innerHTML = "";
+    });
+    searchSuggestions.appendChild(suggestionItem);
+  });
+};
 
 // debounce 적용된 함수
 const debouncedInputChange = debounce(handleInputChange, 300);
@@ -122,11 +150,32 @@ SearchButton.addEventListener("click", function (e) {
     // 검색어가 없을 때 알림을 표시
     alert("검색어를 입력해 주세요.");
   } else {
+    //세션에 검색어 저장
     sessionStorage.setItem("searchQuery", searchInput);
-    console.log(sessionStorage.getItem("searchQuery"));
+    // console.log(sessionStorage.getItem("searchQuery"));
+
+    //검색히스토리 추가
+    addSearchQuery(searchInput);
     // search.html로 이동
     window.location.href = "search.html";
   }
 });
+
+function addSearchQuery(searchInput) {
+  // 기존 검색 기록을 불러옴 (없으면 빈 배열로 초기화)
+  let searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+  searchHistory = searchHistory.filter((value) => value !== searchInput);
+  // 검색어 추가
+  searchHistory.push(searchInput);
+
+  // 로컬 스토리지에 업데이트
+  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+}
+
+// 검색어 기록 불러오기
+function getSearchHistory() {
+  return JSON.parse(localStorage.getItem("searchHistory")) || [];
+}
+console.log(getSearchHistory());
 
 export { fetchMovieByTitle, filteredMovies, filterdTotalPages };

@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="./css/main.css" />
+    <link rel="icon" href="./favicon.png" type="image/png" />
   </head>
   <body>
+    <div class="logo" onclick="window.location.href='index.html'">
+      home으로 이동
+    </div>
     <form id="title-search-form">
       <input
         type="text"
@@ -15,6 +19,9 @@
       />
       <button type="submit" id="search-button">검색</button>
     </form>
+    <div id="searched-title-container">
+      <div class="searched-title"><span>${searchQuery}</span></div>
+    </div>
     <div id="movies-container" class="movies-container">
       <div id="loading-icon"></div>
     </div>

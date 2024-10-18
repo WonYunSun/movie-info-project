@@ -72,7 +72,7 @@ h1 {
 .movies-container {
   display: grid;
   grid-template-columns: repeat(
-    auto-fit,
+    auto-fill,
     minmax(280px, 1fr)
   ); /* 카드의 최소 크기를 200px로 하고, 화면 크기에 맞춰 여러 개 배치 */
   gap: 30px; /* 카드들 사이에 여백 추가 */
@@ -203,4 +203,22 @@ h1 {
 .no-suggestions {
   padding: 10px;
   color: #ccc;
+}
+.recent-searhced {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 5px;
+}
+.recent-searhced > div {
+  color: #fa249a;
+  font-size: 0.9em;
+  padding-left: 10px;
+  padding-top: 5px;
+}
+.recent-searhced > span {
+  color: #bdbdbd;
+  font-size: 0.8em;
+  cursor: pointer;
+  padding-right: 8px;
 }
