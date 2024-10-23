@@ -55,7 +55,6 @@ movies_container.onclick = function (e) {
   fetchMovieDetail(card.value)
     .then((movieDetails) => {
       openModal(movieDetails); // 모달 열기
-      console.log(movieDetails);
     })
     .catch((err) => {
       console.error("영화 상세 정보를 가져오는 데 오류 발생:", err);
