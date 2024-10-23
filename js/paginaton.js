@@ -34,6 +34,8 @@ const loadBookmarkedMovies = async () => {
   // 데이터를 기반으로 영화 카드를 생성
   if (bookmarkMovies.length > 0) {
     createMovieCard(bookmarkMovies); // movieDetails는 영화 디테일 배열
+    endPage = Math.ceil(bookmarkMovies.length / 20);
+    paginationFnc(endPage);
   } else {
     console.log("영화 가져오기 실패");
   }
@@ -44,7 +46,6 @@ const loadMovies = async (fetchFunction, query) => {
   let data;
   if (query === "bookmarked") {
     await loadBookmarkedMovies();
-
     return;
   }
   if (query) {
@@ -58,6 +59,11 @@ const loadMovies = async (fetchFunction, query) => {
     createMovieCard(movies);
     endPage = totalPages;
   }
+
+  if (!data) {
+    return;
+  }
+
   if (data.length === 0) {
     document.getElementById(
       "movies-container"
@@ -136,7 +142,4 @@ if (searchQuery) {
     <div id="searched-title-container">
       <div class="searched-title"><span>"${searchQuery}"</span> 의 검색결과</div>
     </div>`;
-} else {
-  // searchQuery가 없을 때는 HTML 업데이트를 하지 않음
-  SearchedTitleContainer.innerHTML = ""; // 필요시 빈 값 또는 기본 메시지
 }

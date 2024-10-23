@@ -1,6 +1,6 @@
 // movieCard.js
 import { fetchMovieDetail } from "./movieDetail.js";
-import { addBookmarkingMovies, getBookmarkingMovies } from "./bookmark.js";
+import { bookmarkingMovies, getBookmarkingMovies } from "./bookmark.js";
 
 const movies_container = document.getElementById("movies-container");
 
@@ -86,9 +86,21 @@ const openModal = (movieDetails) => {
 
   const bookmarkButton = document.createElement("div");
   bookmarkButton.className = "bookmark-button";
-  bookmarkButton.innerHTML = `<div>북마크하기</div>`;
+  if (getBookmarkingMovies().includes(movieDetails.id)) {
+    bookmarkButton.innerHTML = `<div>북마크해제</div>`;
+  } else {
+    bookmarkButton.innerHTML = `<div>북마크하기</div>`;
+  }
   bookmarkButton.onclick = () => {
-    addBookmarkingMovies(movieDetails.id);
+    // 북마크 추가/제거 함수 호출
+    bookmarkingMovies(movieDetails.id);
+
+    // 버튼 텍스트 업데이트
+    if (getBookmarkingMovies().includes(movieDetails.id)) {
+      bookmarkButton.innerHTML = `<div>북마크해제</div>`;
+    } else {
+      bookmarkButton.innerHTML = `<div>북마크하기</div>`;
+    }
   };
 
   const contents_rightWrap = document.createElement("div");
