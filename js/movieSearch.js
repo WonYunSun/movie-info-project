@@ -79,14 +79,16 @@ function handleInputChange(e) {
     showHistoryList();
   }
 }
+
 const showHistoryList = () => {
   const searchSuggestions = document.querySelector(".search-suggestions");
   const removeHistory = document.createElement("div");
   removeHistory.innerHTML = "<span>모두 삭제</span>";
-
   searchSuggestions.innerHTML =
     '<div class="recent-searhced"><div>최근 검색어</div><span id="remove-history">모두 삭제</span></div>';
+
   const searchHistory = getSearchHistory();
+
   searchHistory.forEach((history) => {
     console.log(history);
     const suggestionItem = document.createElement("div");
@@ -143,7 +145,7 @@ const fetchMovieByTitle = async (query, page) => {
 };
 
 SearchButton.addEventListener("click", function (e) {
-  e.preventDefault(); // 페이지 리로드 방지
+  e.preventDefault();
   // console.log(titleSearchInput.value);
   const searchInput = titleSearchInput.value;
   if (searchInput.trim() === "") {
@@ -162,7 +164,6 @@ SearchButton.addEventListener("click", function (e) {
 });
 
 function addSearchQuery(searchInput) {
-  // 기존 검색 기록을 불러옴 (없으면 빈 배열로 초기화)
   let searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
   searchHistory = searchHistory.filter((value) => value !== searchInput);
   // 검색어 추가

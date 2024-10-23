@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/main.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="title-search-form">
+      <input
+        type="text"
+        id="title-search-input"
+        placeholder="영화 제목을 입력하세요"
+        autocomplete="off"
+      />
+      <button type="submit" id="search-button">검색</button>
+    </form>
+    <div>내 북마크</div>
+    <div id="movies-container" class="movies-container">
+      <div id="loading-icon"></div>
+    </div>
+    <div id="pagination-container" class="pagination-container">
+      <button id="prev-button">&laquo;</button>
+      <div id="page-list"></div>
+      <button id="next-button">&raquo;</button>
+    </div>
+    <script src="./js/app.js" type="module"></script>
+  </body>
+</html>

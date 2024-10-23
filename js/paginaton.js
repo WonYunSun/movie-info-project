@@ -4,9 +4,10 @@ import { createMovieCard } from "./movieCard.js";
 import { fetchMovieByTitle } from "./movieSearch.js";
 import { movies } from "./movieApi.js";
 import { filteredMovies, filterdTotalPages } from "./movieSearch.js";
+import { getBookmarkingMovies } from "./bookmark.js";
+import { fetchMovieDetail } from "./movieDetail.js";
 
 let searchQuery = sessionStorage.getItem("searchQuery");
-// console.log(searchQuery);
 
 let currentPage = 1; // 현재 페이지
 let endPage;
@@ -15,14 +16,39 @@ const page_list = document.getElementById("page-list");
 const prev_button = document.getElementById("prev-button");
 const next_button = document.getElementById("next-button");
 
+const loadBookmarkedMovies = async () => {
+  const bookmarkedMovieIds = getBookmarkingMovies();
+
+  if (bookmarkedMovieIds.length === 0) {
+    document.getElementById(
+      "movies-container"
+    ).innerHTML = `<div>북마크한 영화가 없습니다.</div>`;
+    return;
+  }
+
+  // 모든 영화 ID에 대해 fetchMovieDetail 호출
+  const bookmarkMovies = await Promise.all(
+    bookmarkedMovieIds.map((id) => fetchMovieDetail(id))
+  );
+
+  // 데이터를 기반으로 영화 카드를 생성
+  if (bookmarkMovies.length > 0) {
+    createMovieCard(bookmarkMovies); // movieDetails는 영화 디테일 배열
+  } else {
+    console.log("영화 가져오기 실패");
+  }
+};
+
 // 영화 데이터를 가져오고 카드 생성
-console.log(filteredMovies);
 const loadMovies = async (fetchFunction, query) => {
   let data;
-  console.log(query, currentPage);
+  if (query === "bookmarked") {
+    await loadBookmarkedMovies();
+
+    return;
+  }
   if (query) {
     // 제목별 검색의 경우
-
     data = await fetchFunction(query, currentPage);
     createMovieCard(filteredMovies);
     endPage = filterdTotalPages;
@@ -74,6 +100,9 @@ const paginationFnc = (endPages) => {
         loadMovies(fetchMovies);
       } else if (window.location.pathname.split("/").pop() === "search.html") {
         loadMovies(fetchMovieByTitle, "범죄");
+      } else if (
+        window.location.pathname.split("/").pop() === "myBookmark.html"
+      ) {
       }
       paginationFnc(totalPages);
     });
@@ -94,6 +123,8 @@ if (window.location.pathname.split("/").pop() === "index.html") {
 } else if (window.location.pathname.split("/").pop() === "search.html") {
   console.log(searchQuery);
   loadMovies(fetchMovieByTitle, searchQuery);
+} else if (window.location.pathname.split("/").pop() === "myBookmark.html") {
+  loadMovies(loadBookmarkedMovies, "bookmakred");
 }
 
 const SearchedTitleContainer = document.getElementById(

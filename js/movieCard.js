@@ -1,5 +1,6 @@
 // movieCard.js
 import { fetchMovieDetail } from "./movieDetail.js";
+import { addBookmarkingMovies, getBookmarkingMovies } from "./bookmark.js";
 
 const movies_container = document.getElementById("movies-container");
 
@@ -83,6 +84,15 @@ const openModal = (movieDetails) => {
     document.body.removeChild(movieModal); // DOM에서 모달 제거
   };
 
+  const bookmarkButton = document.createElement("div");
+  bookmarkButton.className = "bookmark-button";
+  bookmarkButton.innerHTML = `<div>북마크하기</div>`;
+  bookmarkButton.onclick = () => {
+    addBookmarkingMovies(movieDetails.id);
+  };
+
+  const contents_rightWrap = document.createElement("div");
+  contents_rightWrap.className = "contents-rightWrap";
   const title = document.createElement("h2");
   title.id = "movieTitle";
   title.textContent = movieDetails.title; // 영화 제목
@@ -103,13 +113,13 @@ const openModal = (movieDetails) => {
 
   // 모달 콘텐츠에 요소 추가
   modalContent.appendChild(closeButton);
-  modalContent.appendChild(title);
   modalContent.appendChild(poster);
-  modalContent.appendChild(overview);
-  modalContent.appendChild(releaseDate);
-  modalContent.appendChild(voteAverage);
-
-  // 모달에 콘텐츠 추가
+  contents_rightWrap.appendChild(title);
+  contents_rightWrap.appendChild(overview);
+  contents_rightWrap.appendChild(releaseDate);
+  contents_rightWrap.appendChild(voteAverage);
+  contents_rightWrap.appendChild(bookmarkButton);
+  modalContent.appendChild(contents_rightWrap); // 모달에 콘텐츠 추가
   movieModal.appendChild(modalContent);
   document.body.appendChild(movieModal); // body에 모달 추가
 
