@@ -18,7 +18,7 @@ const createMovieCard = (movies) => {
 
   movies_container.innerHTML = ""; // 기존 카드 삭제
   movies.forEach((movie) => {
-    const { title, release_date, poster_path, vote_average, id } = movie;
+    const { title, release_date, poster_path, id } = movie;
 
     const card = document.createElement("div");
     card.className = "movie-card";
@@ -48,14 +48,14 @@ const createMovieCard = (movies) => {
 movies_container.onclick = function (e) {
   let target = e.target;
 
-  let card = target.closest(".movie-card"); // 상위 요소 중에 movie-card 클래스가 있는지 탐색
+  let card = target.closest(".movie-card");
 
   if (!card) return; // movie-card 클래스가 없으면 리턴
 
   fetchMovieDetail(card.value)
     .then((movieDetails) => {
-      console.log(movieDetails); // 실제 영화 상세 정보 출력
       openModal(movieDetails); // 모달 열기
+      console.log(movieDetails);
     })
     .catch((err) => {
       console.error("영화 상세 정보를 가져오는 데 오류 발생:", err);
@@ -77,28 +77,31 @@ const openModal = (movieDetails) => {
 
   const closeButton = document.createElement("span");
   closeButton.className = "close-button";
-  closeButton.innerHTML = "&times;"; // 닫기 버튼
+  closeButton.innerHTML = "&times;";
   closeButton.onclick = () => {
-    movieModal.style.display = "none"; // 모달 닫기
-    document.body.removeChild(movieModal); // DOM에서 모달 제거
+    movieModal.style.display = "none";
+    document.body.removeChild(movieModal);
   };
 
   const bookmarkButton = document.createElement("div");
   bookmarkButton.className = "bookmark-button";
   if (getBookmarkingMovies().includes(movieDetails.id)) {
-    bookmarkButton.innerHTML = `<div>북마크해제</div>`;
+    bookmarkButton.innerHTML = `<img src="./asset/unbookmark_icon.png"></img> 
+    <div class="unbookmark">북마크</div>`;
   } else {
-    bookmarkButton.innerHTML = `<div>북마크하기</div>`;
+    bookmarkButton.innerHTML = `<img src="./asset/bookmark_icon.png"></img>
+    <div>북마크</div>`;
   }
   bookmarkButton.onclick = () => {
     // 북마크 추가/제거 함수 호출
     bookmarkingMovies(movieDetails.id);
 
-    // 버튼 텍스트 업데이트
     if (getBookmarkingMovies().includes(movieDetails.id)) {
-      bookmarkButton.innerHTML = `<div>북마크해제</div>`;
+      bookmarkButton.innerHTML = `<img src="./asset/unbookmark_icon.png"></img> 
+      <div class="unbookmark">북마크</div>`;
     } else {
-      bookmarkButton.innerHTML = `<div>북마크하기</div>`;
+      bookmarkButton.innerHTML = `<img src="./asset/bookmark_icon.png"></img>
+      <div>북마크</div>`;
     }
   };
 
@@ -114,24 +117,46 @@ const openModal = (movieDetails) => {
 
   const overview = document.createElement("p");
   overview.id = "movieOverview";
-  overview.textContent = movieDetails.overview; // 영화 개요
+  overview.textContent = movieDetails.overview;
 
   const releaseDate = document.createElement("p");
-  releaseDate.innerHTML = `<strong>개봉일:</strong> <span id="releaseDate">${movieDetails.release_date}</span>`; // 개봉일
+  releaseDate.innerHTML = `개봉일 <span id="releaseDate">${movieDetails.release_date}</span>`; // 개봉일
 
   const voteAverage = document.createElement("p");
-  voteAverage.innerHTML = `<strong>평점:</strong> <span id="voteAverage">${movieDetails.vote_average}</span>`; // 평점
+  voteAverage.innerHTML = `평점 <span id="voteAverage">${movieDetails.vote_average}</span>`; // 평점
+
+  const genresDiv = document.createElement("div");
+  genresDiv.className = "genres-div";
+  movieDetails.genres.forEach((genre) => {
+    const genreDiv = document.createElement("p");
+    genreDiv.textContent = genre.name;
+    genresDiv.appendChild(genreDiv);
+  });
+  const taglineDiv = document.createElement("div");
+  taglineDiv.textContent = movieDetails.tagline;
+  taglineDiv.className = "tagline-div";
+  const titleWapper = document.createElement("div");
+  titleWapper.className = "title-wrapper";
+  const subDataWapper = document.createElement("div");
+  subDataWapper.className = "subdata-wrapper";
 
   // 모달 콘텐츠에 요소 추가
   modalContent.appendChild(closeButton);
   modalContent.appendChild(poster);
-  contents_rightWrap.appendChild(title);
+  titleWapper.appendChild(title);
+  titleWapper.appendChild(taglineDiv);
+  titleWapper.appendChild(genresDiv);
+  contents_rightWrap.appendChild(titleWapper);
+
   contents_rightWrap.appendChild(overview);
-  contents_rightWrap.appendChild(releaseDate);
-  contents_rightWrap.appendChild(voteAverage);
-  contents_rightWrap.appendChild(bookmarkButton);
+  subDataWapper.appendChild(releaseDate);
+  subDataWapper.appendChild(voteAverage);
+
+  contents_rightWrap.appendChild(subDataWapper);
+
   modalContent.appendChild(contents_rightWrap); // 모달에 콘텐츠 추가
   movieModal.appendChild(modalContent);
+  contents_rightWrap.appendChild(bookmarkButton);
   document.body.appendChild(movieModal); // body에 모달 추가
 
   // 모달 외부 클릭 시 닫기

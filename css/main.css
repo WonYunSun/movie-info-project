@@ -103,7 +103,7 @@ body {
 }
 
 .movies-container {
-  min-height: 100vh;
+  min-height: 90vh;
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
@@ -157,7 +157,14 @@ body {
   overflow: hidden; /* 넘치는 내용 숨기기 */
   height: 1.4em; /* 높이를 2줄에 맞게 설정 (약 2줄 높이) */
 }
-
+.searched-title > span {
+  color: #fa249a;
+  font-weight: 700;
+}
+.sub-title {
+  font-size: 1.2rem;
+  padding: 1% 9%;
+}
 .pagination-container {
   text-align: center;
   display: flex;
@@ -255,7 +262,7 @@ body {
   top: 0;
   width: 100%; /* 전체 너비 */
   height: 100%; /* 전체 높이 */
-  background-color: rgba(0, 0, 0, 0.74); /* 반투명 배경 */
+  background-color: rgba(0, 0, 0, 0.863); /* 반투명 배경 */
 }
 
 .modal-content {
@@ -274,10 +281,13 @@ body {
 #moviePoster {
   height: 100%;
   width: auto;
+  max-width: 50%;
   object-fit: contain;
+  position: relative;
 }
+
 .contents-rightWrap {
-  padding: 10px;
+  padding: 10px 25px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -296,5 +306,63 @@ body {
 }
 
 .bookmark-button {
+  padding-top: 20px;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  width: fit-content;
+  color: #fa249a;
   cursor: pointer;
+}
+.bookmark-button > img {
+  width: 30px;
+}
+.bookmark-button > div:nth-child(1) {
+  font-size: 20px;
+}
+.unbookmark {
+  color: #7c7c7c;
+}
+.no-result {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  min-height: 50vh;
+  font-size: 1rem;
+  color: #bdbdbd;
+}
+
+.title-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.genres-div,
+.tagline-div {
+  color: #6b6b6b;
+}
+.genres-div {
+  display: flex;
+  flex-direction: row;
+
+  font-size: 0.9rem;
+  padding-top: 8px;
+}
+.genres-div p::after {
+  content: " · "; /* 슬래시 추가 */
+}
+
+.genres-div p:last-child::after {
+  content: ""; /* 마지막 요소 뒤의 슬래시 제거 */
+}
+
+.subdata-wrapper {
+  color: #6b6b6b;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.95rem;
 }

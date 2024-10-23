@@ -23,7 +23,8 @@ const loadBookmarkedMovies = async () => {
   if (bookmarkedMovieIds.length === 0) {
     document.getElementById(
       "movies-container"
-    ).innerHTML = `<div>북마크한 영화가 없습니다.</div>`;
+    ).innerHTML = `<div class="no-result">😢 북마크한 영화가 없습니다.</div>`;
+    paginationFnc(1);
     return;
   }
 
@@ -56,7 +57,7 @@ const loadBookmarkedMovies = async () => {
 const loadMovies = async (fetchFunction, query) => {
   let data;
   if (query === "bookmarked") {
-    await loadBookmarkedMovies();
+    await fetchFunction();
     return;
   }
   if (query) {
@@ -78,7 +79,8 @@ const loadMovies = async (fetchFunction, query) => {
   if (data.length === 0) {
     document.getElementById(
       "movies-container"
-    ).innerHTML = `<div>검색 결과가 없습니다.</div>`;
+    ).innerHTML = `<div class="no-result">😢 검색 결과가 없습니다.</div>`;
+    paginationFnc(1);
   }
   window.scrollTo({ top: 0, behavior: "smooth" }); // 부드러운 스크롤
   paginationFnc(endPage);
@@ -142,19 +144,17 @@ const paginationFnc = (endPages) => {
 if (window.location.pathname.split("/").pop() === "index.html") {
   loadMovies(fetchMovies);
 } else if (window.location.pathname.split("/").pop() === "search.html") {
-  console.log(searchQuery);
   loadMovies(fetchMovieByTitle, searchQuery);
+  if (searchQuery) {
+    const SearchedTitleContainer = document.getElementById(
+      "searched-title-container"
+    );
+
+    SearchedTitleContainer.innerHTML = `
+      <div id="searched-title-container">
+        <div class="searched-title sub-title">"<span>${searchQuery}</span>"의 검색결과</div>
+      </div>`;
+  }
 } else if (window.location.pathname.split("/").pop() === "myBookmark.html") {
   loadMovies(loadBookmarkedMovies, "bookmakred");
-}
-
-const SearchedTitleContainer = document.getElementById(
-  "searched-title-container"
-);
-
-if (searchQuery) {
-  SearchedTitleContainer.innerHTML = `
-    <div id="searched-title-container">
-      <div class="searched-title"><span>"${searchQuery}"</span> 의 검색결과</div>
-    </div>`;
 }

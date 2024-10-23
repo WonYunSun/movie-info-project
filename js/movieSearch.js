@@ -1,3 +1,5 @@
+import { options } from "./apiConfig.js";
+
 const titleSearchInput = document.getElementById("title-search-input");
 const SearchButton = document.getElementById("search-button");
 
@@ -111,14 +113,6 @@ const showHistoryList = () => {
 const debouncedInputChange = debounce(handleInputChange, 300);
 titleSearchInput.addEventListener("input", debouncedInputChange);
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MTM2NjFkZTcxZjAwYzhmNzUyZjI3ZmIzZTQwZmI5ZSIsIm5iZiI6MTcyOTE0MjA3OS44ODc3MjMsInN1YiI6IjY3MGU1YTU5NDJlMTM5MWM1NjY3MGYwNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.HPoAu_-f2J0Os6eL6Y17jVkFJJD848EiHPC1VyXjteo",
-  },
-};
 let filteredMovies;
 let filterdTotalPages;
 // 제목 검색 결과
@@ -130,7 +124,7 @@ const fetchMovieByTitle = async (query, page) => {
     );
 
     const data = await response.json();
-    console.log(data);
+
     if (data.results) {
       filteredMovies = data.results;
       filterdTotalPages = data.total_pages;
@@ -145,7 +139,7 @@ const fetchMovieByTitle = async (query, page) => {
 
 SearchButton.addEventListener("click", function (e) {
   e.preventDefault();
-  // console.log(titleSearchInput.value);
+
   const searchInput = titleSearchInput.value;
   if (searchInput.trim() === "") {
     // 검색어가 없을 때 알림을 표시
@@ -153,7 +147,6 @@ SearchButton.addEventListener("click", function (e) {
   } else {
     //세션에 검색어 저장
     sessionStorage.setItem("searchQuery", searchInput);
-    // console.log(sessionStorage.getItem("searchQuery"));
 
     //검색히스토리 추가
     addSearchQuery(searchInput);
@@ -176,6 +169,5 @@ function addSearchQuery(searchInput) {
 function getSearchHistory() {
   return JSON.parse(localStorage.getItem("searchHistory")) || [];
 }
-console.log(getSearchHistory());
 
 export { fetchMovieByTitle, filteredMovies, filterdTotalPages };
