@@ -10,7 +10,8 @@ import { fetchMovieDetail } from "./movieDetail.js";
 let searchQuery = sessionStorage.getItem("searchQuery");
 
 let currentPage = 1; // 현재 페이지
-let endPage;
+const moviesPerPage = 20; // 페이지당 영화 수
+let endPage; //마지막 페이지
 const page_list = document.getElementById("page-list");
 
 const prev_button = document.getElementById("prev-button");
@@ -26,19 +27,29 @@ const loadBookmarkedMovies = async () => {
     return;
   }
 
-  // 모든 영화 ID에 대해 fetchMovieDetail 호출
+  // 전체 영화 ID에 대해 fetchMovieDetail 호출
   const bookmarkMovies = await Promise.all(
     bookmarkedMovieIds.map((id) => fetchMovieDetail(id))
   );
 
+  const totalBookmarkMovies = bookmarkMovies.length;
+  endPage = Math.ceil(totalBookmarkMovies / moviesPerPage); // 전체 페이지 수 계산
+
+  // 현재 페이지에 해당하는 영화만 표시
+  const startIndex = (currentPage - 1) * moviesPerPage;
+  const moviesToDisplay = bookmarkMovies.slice(
+    startIndex,
+    startIndex + moviesPerPage
+  );
+
   // 데이터를 기반으로 영화 카드를 생성
-  if (bookmarkMovies.length > 0) {
-    createMovieCard(bookmarkMovies); // movieDetails는 영화 디테일 배열
-    endPage = Math.ceil(bookmarkMovies.length / 20);
-    paginationFnc(endPage);
+  if (moviesToDisplay.length > 0) {
+    createMovieCard(moviesToDisplay); // movieDetails는 영화 디테일 배열
   } else {
     console.log("영화 가져오기 실패");
   }
+  window.scrollTo({ top: 0, behavior: "smooth" }); // 부드러운 스크롤
+  paginationFnc(endPage); // 페이지네이션 함수 호출
 };
 
 // 영화 데이터를 가져오고 카드 생성
@@ -77,8 +88,10 @@ let startPage = 1;
 
 // 다음 페이지 버튼 클릭 시
 next_button.addEventListener("click", () => {
-  startPage += 10;
-  paginationFnc(endPage);
+  if (startPage + 10 <= endPage) {
+    startPage += 10;
+    paginationFnc(endPage);
+  }
 });
 
 // 이전 페이지 버튼 클릭 시
@@ -105,10 +118,11 @@ const paginationFnc = (endPages) => {
       if (window.location.pathname.split("/").pop() === "index.html") {
         loadMovies(fetchMovies);
       } else if (window.location.pathname.split("/").pop() === "search.html") {
-        loadMovies(fetchMovieByTitle, "범죄");
+        loadMovies(fetchMovieByTitle, searchQuery);
       } else if (
         window.location.pathname.split("/").pop() === "myBookmark.html"
       ) {
+        loadBookmarkedMovies();
       }
       paginationFnc(totalPages);
     });
@@ -119,6 +133,7 @@ const paginationFnc = (endPages) => {
 
     pageNumberDiv.appendChild(pageButton);
   }
+
   page_list.innerHTML = ""; // 기존 버튼 삭제
   page_list.appendChild(pageNumberDiv); // 새로 생성한 버튼 추가
 };
