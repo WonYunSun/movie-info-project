@@ -90,7 +90,6 @@ const showHistoryList = () => {
   const searchHistory = getSearchHistory();
 
   searchHistory.forEach((history) => {
-    console.log(history);
     const suggestionItem = document.createElement("div");
     suggestionItem.className = "suggestion-item";
     suggestionItem.textContent = history;
@@ -167,7 +166,7 @@ function addSearchQuery(searchInput) {
   let searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
   searchHistory = searchHistory.filter((value) => value !== searchInput);
   // 검색어 추가
-  searchHistory.push(searchInput);
+  searchHistory.unshift(searchInput);
 
   // 로컬 스토리지에 업데이트
   localStorage.setItem("searchHistory", JSON.stringify(searchHistory));

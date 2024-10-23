@@ -8,15 +8,23 @@
     <link rel="icon" href="./favicon.png" type="image/png" />
   </head>
   <body>
-    <form id="title-search-form">
-      <input
-        type="text"
-        id="title-search-input"
-        placeholder="영화 제목을 입력하세요"
-        autocomplete="off"
-      />
-      <button type="submit" id="search-button">검색</button>
-    </form>
+    <nav class="navbar">
+      <div>
+        <h1 class="logo" onclick="window.location.href='index.html'">
+          영화 검색
+        </h1>
+        <div onclick="window.location.href='myBookmark.html'">내 북마크</div>
+      </div>
+      <form id="title-search-form">
+        <input
+          type="text"
+          id="title-search-input"
+          placeholder="영화 제목을 입력하세요"
+          autocomplete="off"
+        />
+        <button type="submit" id="search-button">검색</button>
+      </form>
+    </nav>
     <div>내 북마크</div>
     <div id="movies-container" class="movies-container">
       <div id="loading-icon"></div>

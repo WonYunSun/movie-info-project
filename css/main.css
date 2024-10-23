@@ -12,42 +12,75 @@
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
+  background-color: #fff;
 }
 
 body {
-  background-color: #f8f9fa; /* 기본 배경색 */
+  background-color: #fff; /* 기본 배경색 */
 }
-/* 제목 스타일 */
-h1 {
+
+.navbar {
+  padding: 20px 9%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+  justify-content: space-between;
+}
+.navbar > div:nth-of-type(1) {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  cursor: pointer;
+}
+.navbar > div > div:nth-of-type(1) {
+  transition: color 0.3s ease;
+}
+.navbar > div > div:nth-of-type(1):hover {
+  color: #fa249a;
+}
+.logo {
   text-align: center; /* 가운데 정렬 */
   color: #333; /* 글자 색상 */
-} /* 폼 스타일 */
+}
+
 #title-search-form {
   position: relative;
   display: flex; /* 플렉스 박스 사용 */
   justify-content: center; /* 중앙 정렬 */
-  margin-bottom: 20px; /* 아래쪽 마진 */
 }
 #title-search-input {
   width: 300px; /* 입력 필드 너비 */
   padding: 10px; /* 패딩 추가 */
-  border: 1px solid #ccc; /* 테두리 설정 */
   border-radius: 5px; /* 모서리 둥글게 */
   font-size: 16px; /* 폰트 크기 */
+  background-color: #f5f5f5;
+  border: none;
+}
+#title-search-input:focus {
+  width: 300px; /* 입력 필드 너비 */
+  padding: 10px; /* 패딩 추가 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  font-size: 16px; /* 폰트 크기 */
+  outline: none;
 }
 #search-button {
   padding: 10px 15px; /* 버튼 패딩 */
   margin-left: 10px; /* 버튼과 입력 필드 간격 */
   border: none; /* 테두리 제거 */
   border-radius: 5px; /* 모서리 둥글게 */
-  background-color: #007bff; /* 버튼 배경 색상 */
+  background-color: #fa249a; /* 버튼 배경 색상 */
   color: white; /* 버튼 글자 색상 */
   font-size: 16px; /* 버튼 폰트 크기 */
   cursor: pointer; /* 커서 포인터로 변경 */
   transition: background-color 0.3s; /* 배경 색상 전환 효과 */
 }
 #loading-icon {
-  margin: auto;
+  position: absolute; /* 화면에 고정 */
+  top: 50%; /* 수직 중앙 */
+  left: 50%; /* 수평 중앙 */
+
+  margin: 0 auto;
   display: inline-block;
   width: 50px;
   height: 50px;
@@ -70,35 +103,34 @@ h1 {
 }
 
 .movies-container {
+  min-height: 100vh;
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
-    minmax(280px, 1fr)
+    minmax(250px, 1fr)
   ); /* 카드의 최소 크기를 200px로 하고, 화면 크기에 맞춰 여러 개 배치 */
   gap: 30px; /* 카드들 사이에 여백 추가 */
-  padding: 5% 9%; /* 컨테이너 내부 여백 */
+  padding: 2% 9% 5% 9%; /* 컨테이너 내부 여백 */
 }
 
 .movie-card {
-  overflow: hidden;
   transition: transform 0.3s;
   display: flex; /* 내부 요소들을 flexbox로 정렬 */
   flex-direction: column; /* 세로 방향으로 정렬 */
 }
 
 .movie-card:hover {
-  transform: scale(1.05); /* 마우스 오버 시 확대 효과 */
+  transform: scale(1.02); /* 마우스 오버 시 확대 효과 */
 }
 
 .poster-image {
-  background-color: #fff;
-  border: 1px solid #ddd;
+  box-shadow: rgba(80, 69, 194, 0.15) 0px 2px 8px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%; /* 카드 너비에 맞춤 */
-  height: 500px; /* 고정된 높이 설정 (원하는 높이로 조정) */
+  height: 430px; /* 고정된 높이 설정 (원하는 높이로 조정) */
   object-fit: cover; /* 비율을 유지하며 잘라내기 */
-  display: block; /* 블록 요소로 설정 */
+  display: block;
+  margin-bottom: 10px;
 }
 
 .movieTextInfo {
@@ -108,31 +140,22 @@ h1 {
 }
 
 .title,
-.overview,
+.releseDate,
 .vote-average {
-  padding: 10px;
   margin: 0;
+  padding-left: 10px;
 }
-
+.releseDate {
+  color: #aaa;
+  font-size: 0.9rem;
+}
 .title {
-  font-size: 1.3rem;
-  padding: 10px;
+  font-size: 1.2rem;
   display: -webkit-box; /* Flexbox를 사용하여 줄 수 제한 */
   -webkit-line-clamp: 1; /* 표시할 줄 수 설정 */
   -webkit-box-orient: vertical; /* 수직 방향으로 정렬 */
   overflow: hidden; /* 넘치는 내용 숨기기 */
-  height: 1.8em; /* 높이를 2줄에 맞게 설정 (약 2줄 높이) */
-  margin-bottom: 10px;
-}
-.overview {
-  font-size: 1rem;
-  padding: 10px;
-  display: -webkit-box; /* Flexbox를 사용하여 줄 수 제한 */
-  -webkit-box-orient: vertical; /* 수직 방향으로 정렬 */
-  -webkit-line-clamp: 2; /* 표시할 줄 수 설정 */
-  overflow: hidden; /* 넘치는 내용 숨기기 */
-  height: 3em; /* 높이를 2줄에 맞게 설정 (약 2줄 높이) */
-  margin-bottom: 10px;
+  height: 1.4em; /* 높이를 2줄에 맞게 설정 (약 2줄 높이) */
 }
 
 .pagination-container {
@@ -208,13 +231,12 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 5px;
+  padding: 5px;
 }
 .recent-searhced > div {
   color: #fa249a;
   font-size: 0.9em;
   padding-left: 10px;
-  padding-top: 5px;
 }
 .recent-searhced > span {
   color: #bdbdbd;
@@ -222,6 +244,8 @@ h1 {
   cursor: pointer;
   padding-right: 8px;
 }
+
+/* 모달 콘텐츠 스타일 */
 
 .modal {
   display: none; /* 기본적으로 숨김 */
@@ -231,32 +255,46 @@ h1 {
   top: 0;
   width: 100%; /* 전체 너비 */
   height: 100%; /* 전체 높이 */
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+  background-color: rgba(0, 0, 0, 0.74); /* 반투명 배경 */
 }
-.close-button {
-  position: absolute;
-  right: 15px;
-  top: 10px;
-}
-/* 모달 콘텐츠 스타일 */
+
 .modal-content {
   position: relative;
   display: flex;
   flex-direction: row;
   background-color: #fff; /* 흰색 배경 */
   margin: 5% auto; /* 세로 중앙 정렬 */
-  padding: 20px;
-  border: 1px solid #888; /* 테두리 */
-  width: 80%; /* 너비 */
+  width: 60%; /* 너비 */
   height: 80vh;
   max-width: 80vw; /* 최대 너비 */
+  border-radius: 10px;
+  overflow: hidden;
+  align-items: center;
+}
+#moviePoster {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+.contents-rightWrap {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /* 닫기 버튼 스타일 */
 .close-button {
+  position: absolute;
+  right: 15px;
+  top: 10px;
   color: #aaa; /* 회색 */
   float: right; /* 오른쪽 정렬 */
   font-size: 28px; /* 글자 크기 */
   font-weight: bold; /* 두꺼운 글씨 */
   cursor: pointer; /* 커서 포인터 */
+}
+
+.bookmark-button {
+  cursor: pointer;
 }

@@ -18,7 +18,7 @@ const createMovieCard = (movies) => {
 
   movies_container.innerHTML = ""; // 기존 카드 삭제
   movies.forEach((movie) => {
-    const { title, overview, poster_path, vote_average, id } = movie;
+    const { title, release_date, poster_path, vote_average, id } = movie;
 
     const card = document.createElement("div");
     card.className = "movie-card";
@@ -28,17 +28,16 @@ const createMovieCard = (movies) => {
     image.src = `https://image.tmdb.org/t/p/w500${poster_path}`;
 
     const titleElement = createElementWithText("h2", "title", title);
-    const overviewElement = createElementWithText("p", "overview", overview);
-    const voteAverageElement = createElementWithText(
+    const releaseDateElement = createElementWithText(
       "p",
-      "vote-average",
-      `평점 평균: ${vote_average.toFixed(1)}/10`
+      "releseDate",
+      release_date.split("-")[0]
     );
 
     card.appendChild(image);
     card.appendChild(titleElement);
-    card.appendChild(overviewElement);
-    card.appendChild(voteAverageElement);
+    card.appendChild(releaseDateElement);
+
     card.value = id;
 
     movies_container.appendChild(card);
