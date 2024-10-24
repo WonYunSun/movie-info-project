@@ -118,7 +118,10 @@ const paginationFnc = (endPages) => {
 
     pageButton.addEventListener("click", () => {
       currentPage = Number(pageButton.value);
-      if (window.location.pathname.split("/").pop() === "index.html") {
+      if (
+        window.location.pathname.split("/").pop() === "index.html" ||
+        window.location.pathname.split("/").pop() === ""
+      ) {
         loadMovies(fetchMovies);
       } else if (window.location.pathname.split("/").pop() === "search.html") {
         loadMovies(fetchMovieByTitle, searchQuery);
