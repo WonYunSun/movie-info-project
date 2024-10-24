@@ -142,7 +142,10 @@ const paginationFnc = (endPages) => {
 };
 
 // 초기 영화 데이터 로드
-if (window.location.pathname.split("/").pop() === "index.html") {
+if (
+  window.location.pathname.split("/").pop() === "index.html" ||
+  window.location.pathname.split("/").pop() === ""
+) {
   loadMovies(fetchMovies);
 } else if (window.location.pathname.split("/").pop() === "search.html") {
   loadMovies(fetchMovieByTitle, searchQuery);
