@@ -1,11 +1,12 @@
-// pagination.js
-import { fetchMovies, totalPages } from "./movieApi.js";
+import { fetchMovies, totalPages, movies } from "./allMovieApi.js";
 import { createMovieCard } from "./movieCard.js";
-import { fetchMovieByTitle } from "./movieSearch.js";
-import { movies } from "./movieApi.js";
-import { filteredMovies, filterdTotalPages } from "./movieSearch.js";
+import {
+  fetchMovieByTitle,
+  filteredMovies,
+  filterdTotalPages,
+} from "./movieSearch.js";
 import { getBookmarkingMovies } from "./bookmark.js";
-import { fetchMovieDetail } from "./movieDetail.js";
+import { fetchMovieDetail } from "./movieDetailsApi.js";
 
 let searchQuery = sessionStorage.getItem("searchQuery");
 
@@ -43,19 +44,19 @@ const loadBookmarkedMovies = async () => {
     startIndex + moviesPerPage
   );
 
-  // 데이터를 기반으로 영화 카드를 생성
   if (moviesToDisplay.length > 0) {
-    createMovieCard(moviesToDisplay); // movieDetails는 영화 디테일 배열
+    createMovieCard(moviesToDisplay);
   } else {
     console.log("영화 가져오기 실패");
   }
-  window.scrollTo({ top: 0, behavior: "smooth" }); // 부드러운 스크롤
-  paginationFnc(endPage); // 페이지네이션 함수 호출
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  paginationFnc(endPage);
 };
 
 // 영화 데이터를 가져오고 카드 생성
 const loadMovies = async (fetchFunction, query) => {
   let data;
+  // 북마크한 영화의 경우
   if (query === "bookmarked") {
     await fetchFunction();
     return;
@@ -82,7 +83,7 @@ const loadMovies = async (fetchFunction, query) => {
     ).innerHTML = `<div class="no-result">😢 검색 결과가 없습니다.</div>`;
     paginationFnc(1);
   }
-  window.scrollTo({ top: 0, behavior: "smooth" }); // 부드러운 스크롤
+  window.scrollTo({ top: 0, behavior: "smooth" });
   paginationFnc(endPage);
 };
 
@@ -113,7 +114,7 @@ const paginationFnc = (endPages) => {
   for (let i = startPage; i <= endPage; i++) {
     const pageButton = document.createElement("button");
     pageButton.textContent = i;
-    pageButton.value = i; // 버튼의 value 속성에 페이지 번호 저장
+    pageButton.value = i;
 
     pageButton.addEventListener("click", () => {
       currentPage = Number(pageButton.value);

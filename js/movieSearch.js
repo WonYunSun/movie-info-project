@@ -7,7 +7,7 @@ const SearchButton = document.getElementById("search-button");
 function debounce(func, delay) {
   let timer;
   return function (...args) {
-    clearTimeout(timer); // 타이머 초기화
+    clearTimeout(timer);
     timer = setTimeout(() => func.apply(this, args), delay); // delay 후에 함수 실행
   };
 }
@@ -69,7 +69,7 @@ function handleInputChange(e) {
 
           suggestionItem.addEventListener("click", () => {
             titleSearchInput.value = movie.title; // 클릭 시 제목 설정
-            searchSuggestions.innerHTML = ""; // 제안 목록 비우기
+            searchSuggestions.innerHTML = "";
           });
 
           searchSuggestions.appendChild(suggestionItem); // 제안 목록에 추가
@@ -98,8 +98,6 @@ const showHistoryList = () => {
     suggestionItem.addEventListener("click", () => {
       titleSearchInput.value = history; // 클릭 시 제목 설정
       searchSuggestions.style.visibility = "hidden";
-      // searchSuggestions.innerHTML = ""; // 제안 목록 비우기
-      // 검색 제안 목록에 아이템 추가
     });
     document.getElementById("remove-history").addEventListener("click", () => {
       localStorage.clear();

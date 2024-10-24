@@ -25,17 +25,16 @@ const fetchMovies = async (page) => {
     const data = await response.json();
 
     if (data.results) {
-      hideLoading(); // 데이터 로드 완료 후 로딩 아이콘 숨기기
-      movies = data.results; // 받아온 데이터를 movies에 저장
+      hideLoading();
+      movies = data.results;
       totalPages = data.total_pages;
-      // total_result.innerText = "검색 건수 : " + data.total_results + "건";
-      return movies; // movies 반환
+      return movies;
     } else {
-      hideLoading(); // 데이터 로드 완료 후 로딩 아이콘 숨기기
+      hideLoading();
       console.error("영화 데이터를 가져오는 데 실패했습니다.", data);
     }
   } catch (err) {
-    hideLoading(); // 데이터 로드 완료 후 로딩 아이콘 숨기기
+    hideLoading();
     console.error(err);
   }
 };

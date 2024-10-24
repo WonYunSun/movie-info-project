@@ -1,5 +1,4 @@
-// movieCard.js
-import { fetchMovieDetail } from "./movieDetail.js";
+import { fetchMovieDetail } from "./movieDetailsApi.js";
 import { bookmarkingMovies, getBookmarkingMovies } from "./bookmark.js";
 
 const movies_container = document.getElementById("movies-container");
