@@ -24,7 +24,11 @@ const createMovieCard = (movies) => {
 
     const image = document.createElement("img");
     image.className = "poster-image";
-    image.src = `https://image.tmdb.org/t/p/w500${poster_path}`;
+
+    image.src =
+      poster_path === null
+        ? "./asset/no_img.png"
+        : `https://image.tmdb.org/t/p/w500${poster_path}`;
 
     const titleElement = createElementWithText("h2", "title", title);
     const releaseDateElement = createElementWithText(
@@ -111,7 +115,10 @@ const openModal = (movieDetails) => {
 
   const poster = document.createElement("img");
   poster.id = "moviePoster";
-  poster.src = `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`; // 포스터 이미지
+  poster.src =
+    movieDetails.poster_path === null
+      ? "./asset/no_img.png"
+      : `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`;
 
   const overview = document.createElement("p");
   overview.id = "movieOverview";
